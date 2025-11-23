@@ -1,0 +1,10 @@
+services:
+  prodigiosovolcan:
+    build: .
+    ports:
+      - "9778:9778"
+    environment:
+      - NODE_ENV=development
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}        # ← VARIABLE
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET} # ← VARIABLE  
+      - SESSION_SECRET=${SESSION_SECRET}             # ← VARIABLE
