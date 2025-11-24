@@ -9,7 +9,7 @@ function App() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch('http://localhost:9778/profile', {
+        const response = await fetch('/profile', {
           credentials: 'include'
         });
 
@@ -22,7 +22,7 @@ function App() {
         }
 
         console.log('Intentando refrescar la sesión...');
-        const refreshResponse = await fetch('http://localhost:9778/auth/refresh', {
+        const refreshResponse = await fetch('/auth/refresh', {
           credentials: 'include',
           method: 'GET'
         });
@@ -42,7 +42,7 @@ function App() {
   }, []);
 
   const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:9778/auth/google';
+    window.location.href = 'https://localhost/auth/google';
   };
 
   if (currentPage === 'profile') {

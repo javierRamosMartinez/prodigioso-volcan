@@ -14,7 +14,7 @@ app.use(cors({
     credentials: true
 }));
 
-// Configuración de sesión (NUEVO)
+// Configuración de sesión 
 app.use(session({
     secret: process.env.SESSION_SECRET || 'fallback-secret',
     resave: false,
@@ -36,7 +36,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:9778/auth/google/callback"
+    callbackURL: "https://localhost/auth/google/callback"
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         const userData = {
@@ -65,19 +65,18 @@ app.get('/auth/google',
     passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
-// Ruta de callback (donde Google redirige después del login)
+// Ruta de callback 
 app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: 'http://localhost:3000' }),
+    passport.authenticate('google', { failureRedirect: 'https://localhost' }),
     (req, res) => {
-        // Login exitoso - redirigir a una página protegida
-        res.redirect('http://localhost:3000/profile');
+        res.redirect('https://localhost');
     }
 );
 
 // Ruta protegida para ver el perfil del usuario
 app.get('/profile', (req, res) => {
     if (!req.isAuthenticated()) {
-        return res.status(401).json({ error: 'No autenticado' }); // Cambia esto
+        return res.status(401).json({ error: 'Usuario no autenticado' });
     }
     res.json({
         message: '¡Bienvenido!',
@@ -92,7 +91,7 @@ app.get('/auth/refresh', async (req, res) => {
     }
 
     try {
-        req.session.touch(); // Actualiza la expiración de la sesión
+        req.session.touch(); // Actualiza la sesión
         res.json({
             success: true,
             message: 'Sesión renovada',

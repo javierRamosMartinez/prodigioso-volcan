@@ -5,7 +5,7 @@ function Profile() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:9778/profile', {
+        fetch('/profile', {
             credentials: 'include'
         })
             .then(response => response.json())
@@ -22,7 +22,7 @@ function Profile() {
     }, []);
 
     const handleLogout = () => {
-        window.location.href = 'http://localhost:9778/logout';
+        window.location.href = '/logout';
     };
 
     if (!user) {

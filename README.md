@@ -1,39 +1,86 @@
-# 🌋 Prodigioso Volcán - Prueba Técnica
+# 🧩 Prodigioso Volcán – Guía Resumida Fullstack
 
-Aplicación fullstack con autenticación Google OAuth, Docker y React.
+Implementación del ejercicio técnico de **Prodigioso Volcán** con:
 
-## 🚀 Características Implementadas
+- Autenticación **Google SSO**
+- Manejo de sesión
+- **Backend:** Node.js + Express + Passport
+- **Frontend:** independiente, ejecutable con `npm start`
+- **Despliegue:** Docker Compose
+- **Reverse proxy y HTTPS:** Nginx
 
-### ✅ Parte 1: SSO con Google
-- Autenticación OAuth 2.0 con Google
-- Persistencia de sesión
-- Protección de rutas
+---
 
-### ✅ Parte 2: Docker  
-- Contenedor Docker configurado
-- Docker Compose para orquestación
-- Variables de entorno gestionadas
+# 🚀 Tecnologías
 
-### ✅ Frontend React
-- Interfaz moderna y responsive
-- Detección automática de sesión
-- Componentes modulares
+- Node.js + Express  
+- Passport.js (OAuth 2.0 Google)  
+- Frontend JS clásico  
+- Docker & Docker Compose  
+- Nginx con certificados TLS/SSL  
 
-## 🛠️ Tecnologías
+---
 
-- **Backend**: Node.js, Express, Passport.js
-- **Frontend**: React, CSS Modules
-- **Contenedores**: Docker, Docker Compose
-- **Autenticación**: Google OAuth 2.0
+# 📦 Requisitos
 
-## 📦 Instalación y Ejecución
+- Node.js ≥ 18  
+- Docker y Docker Compose  
+- Cuenta de Google Cloud para OAuth  
 
-### Prerrequisitos
-- Docker
-- Docker Compose
-- Credenciales de Google OAuth
+---
 
-### 1. Clonar repositorio
-```bash
-git clone <url-del-repositorio>
-cd prodigioso-volcan
+# 🔐 Configuración de Google OAuth
+
+1. Ir a: [Google Cloud Console](https://console.cloud.google.com/apis/credentials)  
+2. Crear **OAuth Client ID → Web Application**  
+3. Añadir URI de redirección:  
+
+4. Guardar credenciales: `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET`
+
+---
+
+# ⚙️ Variables de entorno
+
+Archivo `.env` en la raíz del backend:
+GOOGLE_CLIENT_ID=tu_client_id
+GOOGLE_CLIENT_SECRET=tu_client_secret
+SESSION_SECRET=valor_seguro
+PORT=9778
+
+
+---
+
+# 🐳 Levantar la aplicación
+
+Se usan **dos terminales**:
+
+### 1️⃣ Backend + Nginx (Docker Compose)
+
+Levanta:
+
+- Backend (`prodigiosovolcan`) en **9778**  
+- Nginx:
+  - **80 → HTTPS**  
+  - **443 → HTTPS** con certificado  
+
+Acceso: [https://localhost](https://localhost)  
+> El backend solo se accede vía Nginx.
+
+### 2️⃣ Frontend
+
+cd front
+npm install
+npm start
+
+Abre el frontend en [http://localhost:3000], comunicándose con el backend por HTTPS.
+
+---
+
+# 🔐 Flujo SSO
+
+1. Usuario abre frontend  
+2. Hace clic en **Iniciar sesión con Google**  
+3. Redirige al backend (`/auth/google`)  
+4. Google autentica  
+5. Backend guarda la sesión  
+6. Usuario vuelve al frontend con su **nombre** visible

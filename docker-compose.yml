@@ -1,10 +1,21 @@
 services:
   prodigiosovolcan:
     build: .
-    ports:
-      - "9778:9778"
+    # ports:
+    #   - "9778:9778"
     environment:
       - NODE_ENV=development
-      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}        # ← VARIABLE
-      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET} # ← VARIABLE  
-      - SESSION_SECRET=${SESSION_SECRET}             # ← VARIABLE
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}        
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET} 
+      - SESSION_SECRET=${SESSION_SECRET}
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80" #http
+      - "443:443" #https
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - prodigiosovolcan           
